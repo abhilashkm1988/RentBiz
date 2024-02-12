@@ -1,24 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/shared/Layout';
+import Login from './pages/Login';
+import RequireAuth from './components/routes/RequireAuth';
+import Dashboard from './pages/Dashboard';
+import PublicLayout from './components/shared/PublicLayout';
+import Company from './pages/Company';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path='/' element={<PublicLayout />}>
+        {/* Public routes */}
+        <Route path='login' element={<Login />} />
+
+        {/* Protected routes */}
+        <Route element={<RequireAuth />}>
+          <Route element={<Layout />}>
+            <Route path='/' element={<Dashboard />} />
+            <Route path='/company' element={<Company />} />
+          </Route>
+        </Route>
+        {/* Catch all missing */}
+      </Route>
+    </Routes>
   );
 }
 
